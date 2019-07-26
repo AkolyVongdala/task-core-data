@@ -5,21 +5,31 @@
 //  Created by Mohammed Almaroof on 7/25/19.
 //  Copyright © 2019 Mohammed Almaroof. All rights reserved.
 //
-
+import CoreData
 import UIKit
 // TODO: import CoreData
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
     // TODO: Initialize a lazy var called persistentContainer that represents
     // our container to the data model
-
-
+    lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "TaskList")
+        container.loadPersistentStores { description, error in
+            if let error = error {
+                fatalError("Unable to load persistent stores: \(error)")
+            }
+        }
+        return container
+    }()
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         // TODO: Send the container down to the view controller
+        if let rootVC = window?.rootViewController as? ViewController {
+            rootVC.container = persistentContainer
+        }
         return true
     }
 
@@ -44,7 +54,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
+    
 }
 
